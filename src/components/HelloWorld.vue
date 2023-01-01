@@ -7,7 +7,6 @@ supportLangSet.add('zh-CN')
 supportLangSet.add('zh-HK')
 supportLangSet.add('zh-TW')
 let taholder = 'separate entires by newline'
-console.log(navigator.languages)
 let initTaholder = () => {
   for (const l of navigator.languages) {
     switch (l) {
@@ -65,7 +64,6 @@ export default {
       }
     },
     init(firstInit = true, groups = 1, duration = 1) {
-      console.log("init", firstInit, groups, duration)
       this.doors.forEach((door, i) => {
         if (firstInit) {
           door.dataset.spinned = '0';
@@ -83,7 +81,6 @@ export default {
             arr.push(...this.lists[i]);
           }
           pool.push(...this.shuffle(arr));
-          console.log(pool);
 
           boxesClone.addEventListener(
             'transitionstart',
