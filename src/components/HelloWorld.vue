@@ -1,15 +1,45 @@
 <script>
 
+const supportLangSet = new Set()
+supportLangSet.add('en')
+supportLangSet.add('ja')
+supportLangSet.add('zh-CN')
+supportLangSet.add('zh-HK')
+supportLangSet.add('zh-TW')
+let taholder = 'separate entires by newline'
+console.log(navigator.languages)
+let initTaholder = () => {
+  for (const l of navigator.languages) {
+    switch (l) {
+      case 'ja':
+        taholder = '単語を改行で入れてください'
+        return;
+      case 'en':
+        taholder = 'separate entires by newline'
+        return;
+      case 'zh-CN':
+      case 'zh-SG':
+        taholder = '请换行输入条目'
+        return
+      case 'zh-HK':
+      case 'zh-TW':
+        taholder = "请換行添入條目"
+        return
+    }
+  }
+}
+initTaholder()
+
 export default {
   name: "HelloWorld",
   data() {
     return {
       isActive: 'conf',
       strLists: [
-          "", ""
+        "", ""
       ],
       doors: [],
-      strListExample: "単語を改行で入れてください\n🍭\n❌\n⛄\n🦄\n🍌\n💩\n👻\n😻\n💵\n🤡\n🦖\n🍎\n😂\n🖕"
+      //strListExample: "単語を改行で入れてください\n🍭\n❌\n⛄\n🦄\n🍌\n💩\n👻\n😻\n💵\n🤡\n🦖\n🍎\n😂\n🖕"
     }
   },
   updated() {
@@ -20,6 +50,9 @@ export default {
   computed: {
     lists: function () {
       return this.strLists.map(x => x.split("\n"))
+    },
+    strListExample: function () {
+      return taholder + "\n🍭\n❌\n⛄\n🦄\n🍌\n💩\n👻\n😻\n💵\n🤡\n🦖\n🍎\n😂"
     }
   },
   beforeUpdate() {
@@ -53,25 +86,25 @@ export default {
           console.log(pool);
 
           boxesClone.addEventListener(
-              'transitionstart',
-              function () {
-                door.dataset.spinned = '1';
-                this.querySelectorAll('.slot-box').forEach((box) => {
-                  box.style.filter = 'blur(1px)';
-                });
-              },
-              {once: true}
+            'transitionstart',
+            function () {
+              door.dataset.spinned = '1';
+              this.querySelectorAll('.slot-box').forEach((box) => {
+                box.style.filter = 'blur(1px)';
+              });
+            },
+            { once: true }
           );
 
           boxesClone.addEventListener(
-              'transitionend',
-              function () {
-                this.querySelectorAll('.slot-box').forEach((box, index) => {
-                  box.style.filter = 'blur(0)';
-                  if (index > 0) this.removeChild(box);
-                });
-              },
-              {once: true}
+            'transitionend',
+            function () {
+              this.querySelectorAll('.slot-box').forEach((box, index) => {
+                box.style.filter = 'blur(0)';
+                if (index > 0) this.removeChild(box);
+              });
+            },
+            { once: true }
           );
         }
 
@@ -89,7 +122,7 @@ export default {
       });
     },
 
-    spin: async function() {
+    spin: async function () {
       const groups = ~~(20 / Math.min(...this.lists.map(x => x.length)))
       this.init(false, groups, 3);
 
@@ -152,7 +185,7 @@ export default {
           <div class="box">?</div>
         </div>
       </div>
-      <template >
+      <template>
 
       </template>
       <div class="buttons">
@@ -160,7 +193,9 @@ export default {
         <button id="reseter" v-on:click="init">Reset</button>
       </div>
       <div>
-        Inspired by Victor Toschi's <a href="https://medium.com/@victortoschi/how-to-create-a-slot-machine-animation-with-css-and-javascript-9073ab9db9ea">Slot Machine</a>
+        Inspired by Victor Toschi's <a
+          href="https://medium.com/@victortoschi/how-to-create-a-slot-machine-animation-with-css-and-javascript-9073ab9db9ea">Slot
+          Machine</a>
       </div>
     </div>
   </div>
@@ -170,6 +205,7 @@ export default {
 .tab-contents .content {
   display: none;
 }
+
 .tab-contents .content.is-active {
   background: #0090c0;
   width: 100vw;
